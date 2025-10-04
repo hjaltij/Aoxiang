@@ -82,6 +82,14 @@ public class HTTPResponse {
         socket.close()
     }
 
+    /// Send binary data to client, and close the connection.
+    public func sendData(_ data: Data) {
+        writeHeader(["Content-Length": "\(data.count)"])
+
+        try? socket.writeUInt8(ArraySlice(data))
+        socket.close()
+    }
+
     /// Send close event to client, and close the connection.
     public func end() {
         if isChunked {
